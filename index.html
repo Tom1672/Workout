@@ -1,33 +1,11 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Workout !</title>
-
-<style>
-body {
-    max-width: 700px;
-    font-family: Arial;
-    text-align: center;
-    background: #f5f5f5;
-    margin: auto;
-    padding: 10px;
-}
-
-h2 {
-    margin-top: 15px;
-}
-
 .grid {
     display: grid;
     gap: 10px;
     margin: 20px auto;
     max-width: 500px;
-    width: 100%
-    box-sizing: border-box
-    
-    /* standaard = mobiel */
+    width: 100%;
+    box-sizing: border-box;
+
     grid-template-columns: repeat(3, 1fr);
 }
 
@@ -50,11 +28,11 @@ button {
     .grid {
         padding: 0 5px;
     }
-}
+
     button {
         padding: 10px;
-        font-size: 10px;
-        min-height: 50px
+        font-size: 14px;
+        min-height: 50px;
     }
 }
 
@@ -65,125 +43,3 @@ button {
         font-size: 18px;
     }
 }
-
-button:active {
-    transform: scale(0.97);
-}
-
-.random {
-    background: #2196F3;
-    width: 85%;
-    margin: 20px auto;
-    padding: 15px;
-    font-size: 20px;
-}
-
-/* video scherm */
-#playerContainer {
-    display: none;
-    padding: 10px;
-}
-
-video {
-    width: 100%;
-    max-width: 600px;
-    border-radius: 10px;
-}
-
-.backBtn {
-    margin-top: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    background: #f44336;
-}
-</style>
-</head>
-
-<body>
-
-<h2 id="title">Workouts</h2>
-
-<div id="main">
-    <div class="grid" id="buttons"></div>
-    <button class="random" onclick="randomVideo()">🎲 Random</button>
-</div>
-
-<div id="playerContainer">
-    <video id="videoPlayer" controls autoplay></video><br>
-    <button class="backBtn" onclick="goBack()">⬅ Terug</button>
-</div>
-
-<script>
-
-// 🔥 JOUW LINKS (al gefixt naar raw=1)
-const videos = [
-"https://www.dropbox.com/scl/fi/470ei3al4hvxw7a0jbhr7/Workout-01.mp4?rlkey=pr0jq73r1t83ljwobzj0osr6s&raw=1",
-"https://www.dropbox.com/scl/fi/izqrwr61fsz7dn9ghj9wu/Workout-02.mp4?rlkey=i69itjrlm6ekocfjy3m56f16g&raw=1",
-"https://www.dropbox.com/scl/fi/det7148yoeykd0pf0dqb9/Workout-03.mp4?rlkey=zxjwx8ypnbjjwc41mto0riikh&raw=1",
-"https://www.dropbox.com/scl/fi/al3b17t0iky3eni1mjwnk/Workout-04.mp4?rlkey=o2nwr5zx8j2ph3p5wqgso819k&raw=1",
-"https://www.dropbox.com/scl/fi/r6qch0an80yl3hxgaextq/Workout-05.mp4?rlkey=33t5aenh2ursikpucq99icjp1&raw=1",
-"https://www.dropbox.com/scl/fi/ai40idrnntqomvcg4vcv1/Workout-06.mp4?rlkey=76ykolx0nfdc9groeufo70ev4&raw=1",
-"https://www.dropbox.com/scl/fi/vd2wlkd5i5tkz7wua0ftl/Workout-07.mp4?rlkey=n9w9vfj3gszzj3frsgslr70px&raw=1",
-"https://www.dropbox.com/scl/fi/52wuavsqnh04uxh3zm6xu/Workout-08.mp4?rlkey=mbdnfpu7nz9lhdiy4hhzauab1&raw=1",
-"https://www.dropbox.com/scl/fi/m02bsnwqs7d29auzvigsq/Workout-09.mp4?rlkey=ghm6fcrc6wl9omvghd644taah&raw=1",
-"https://www.dropbox.com/scl/fi/u3hfrsf44kdy7hil4chtf/Workout-10.mp4?rlkey=c0l914k6je7hexkzfle7lxcc5&raw=1",
-"https://www.dropbox.com/scl/fi/dq4edli95k96j119zh6am/Workout-11.mp4?rlkey=ihyqr726tpdaquya4s8o0dknf&raw=1",
-"https://www.dropbox.com/scl/fi/zy4mhfrkrsklz9669a68a/Workout-12.mp4?rlkey=al07lzg5sf2aqdxodrlx6i2c7&raw=1",
-"https://www.dropbox.com/scl/fi/i0zcokdnsvr3iawzrqubi/Workout-13.mp4?rlkey=ziqqfaigh6x26plbb7bffw88v&raw=1",
-"https://www.dropbox.com/scl/fi/s5uds1c7x2weqsquedpjl/Workout-14.mp4?rlkey=jus2ltzpz3l2qnpdhjg4i9p5k&raw=1",
-"https://www.dropbox.com/scl/fi/h5qrdci7w8jmuvqggk85s/Workout-15.mp4?rlkey=zboj8qgmymkajpai0hjoks6fl&raw=1",
-"https://www.dropbox.com/scl/fi/sk4lnp7splxh99i2q6ff0/Workout-16.mp4?rlkey=hrfhummpt17kwtxoi63g89zg0&raw=1",
-"https://www.dropbox.com/scl/fi/xfgp0t9z6jjmxk9aaai7v/Workout-17.mp4?rlkey=ui4b1dbesf4kewwtk56tn3pts&raw=1",
-"https://www.dropbox.com/scl/fi/6q1l6kv93pxmhim6es0kl/Workout-18.mp4?rlkey=ooedosy9xdey5hcpxxepz0n2p&raw=1",
-"https://www.dropbox.com/scl/fi/pg0e2uw9q7nferjez4cmd/Workout-19.mp4?rlkey=l91mp1hj39e57fvn9w19uq185&raw=1",
-"https://www.dropbox.com/scl/fi/iah6usjfayfpe5bjzai3t/Workout-20.mp4?rlkey=9oywdimrozenx08h6x9lq9g2k&raw=1",
-"https://www.dropbox.com/scl/fi/yztky15mnf9ynp2pc4nv0/Workout-21.mp4?rlkey=i4zoxf46yl3hkwpzb9d5zz49w&raw=1",
-"https://www.dropbox.com/scl/fi/ah2df9eimd0jzj3mgoddz/Workout-22.mp4?rlkey=0hbu9nxpz040ukg3ag0pd4cw9&raw=1",
-"https://www.dropbox.com/scl/fi/w9n0cyyto0ram7g1evfna/Workout-23.mp4?rlkey=0btluazla7ulaqio25kk6yd7s&raw=1",
-"https://www.dropbox.com/scl/fi/3o2tfe5qi3xx078lxz11e/Workout-24.mp4?rlkey=619mpqgnttkgu3op8wowlvklm&raw=1"
-];
-
-// UI refs
-const container = document.getElementById("buttons");
-const main = document.getElementById("main");
-const playerContainer = document.getElementById("playerContainer");
-const player = document.getElementById("videoPlayer");
-
-// buttons maken
-videos.forEach((video, index) => {
-    const btn = document.createElement("button");
-    btn.innerText = index + 1;
-    btn.onclick = () => playVideo(video, index + 1);
-    container.appendChild(btn);
-});
-
-// video starten
-function playVideo(url, number) {
-    main.style.display = "none";
-    playerContainer.style.display = "block";
-
-    player.src = url;
-    player.play();
-}
-
-// terug
-function goBack() {
-    player.pause();
-    player.src = "";
-    playerContainer.style.display = "none";
-    main.style.display = "block";
-}
-
-// random
-function randomVideo() {
-    const index = Math.floor(Math.random() * videos.length);
-    const number = index + 1;
-
-    alert("Random oefening: " + number);
-    playVideo(videos[index], number);
-}
-
-</script>
-
-</body>
-</html>
