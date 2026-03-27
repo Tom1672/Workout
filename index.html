@@ -36,12 +36,26 @@ h2 {
 }
 
 button {
-    padding: 22px;
-    font-size: 20px;
     border-radius: 12px;
     border: none;
     background: #4CAF50;
     color: white;
+}
+
+/* 📱 mobiel */
+@media (max-width: 767px) {
+    button {
+        padding: 16px;
+        font-size: 16px;
+    }
+}
+
+/* 💻 desktop */
+@media (min-width: 768px) {
+    button {
+        padding: 20px;
+        font-size: 18px;
+    }
 }
 
 button:active {
